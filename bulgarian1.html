@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <link rel="icon" href="uchenichkoLOGO.webp" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Български език - Ученичко</title>
+    <title>Правопис - Ученичко</title>
     <style>
-        /* Вграден CSS */
+        /* Използвайте същия CSS като предишната страница */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -66,41 +65,34 @@
             color: #0056a6;
         }
 
-        .article {
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            background-color: #fff;
-            padding: 1rem;
-            margin: 1rem auto;
-            max-width: 800px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .article img {
-            width: 150px;
-            height: auto;
-            border-radius: 12px;
-        }
-
         .article-content {
-            flex: 1;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 1rem 0;
         }
 
-        .article h3 {
-            font-size: 1.5rem;
+        .article-content h3 {
+            font-size: 1.8rem;
             color: #333;
+            margin-bottom: 1rem;
         }
 
-        .article p {
-            font-size: 1.1rem;
+        .article-content p {
+            font-size: 1.2rem;
             color: #555;
             text-align: justify;
+            margin-bottom: 1.5rem;
         }
 
-        .article a {
+        .article-content ul {
+            font-size: 1.1rem;
+            color: #555;
+            margin-left: 20px;
+        }
+
+        .article-content a {
             display: inline-block;
             margin-top: 1rem;
             padding: 0.6rem 1.2rem;
@@ -111,7 +103,7 @@
             font-size: 1rem;
         }
 
-        .article a:hover {
+        .article-content a:hover {
             background: #0056a6;
         }
 
@@ -131,7 +123,7 @@
 </head>
 <body>
     <header>
-        <h1>Български език - Ученичко</h1>
+        <h1>Научете най-важните правила за правопис - Ученичко</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Начало</a></li>
@@ -143,18 +135,16 @@
     </header>
     <main>
         <section>
-            <h2>Български език</h2>
-            <div class="article">
-                <img src="bulgarian1.png" alt="Граматика">
-                <h3>Основи на българската граматика</h3>
-                <p>Научете най-важните правила за правилно писане и говорене...</p>
-                <a href="bulgarian1.html">Прочети</a>
-            </div>
-            <div class="article">
-                <img src="bulgarian2.jpg" alt="Литература">
-                <h3>Въведение в българската литература</h3>
-                <p>Открийте ключовите произведения и автори в историята на литературата...</p>
-                <a href="bulgarian2.html">Прочети</a>
+            <div class="article-content">
+                <h3>Научете най-важните правила за правопис</h3>
+                <p>Правописът е от съществено значение за ясната и ефективна комуникация. В тази статия ще разгледаме основните правила:</p>
+                <ul>
+                    <li><strong>Правопис на гласните:</strong> Научете кога се използват правилно буквите "и", "й", "а" и "ъ".</li>
+                    <li><strong>Употреба на пълен и кратък член:</strong> Разберете разликата между „-ът“ и „-а“.</li>
+                    <li><strong>Препинателни знаци:</strong> Кога и как се използват запетаи, точки и тирета.</li>
+                </ul>
+                <p>Използването на правилния правопис не само показва уважение към езика, но и улеснява разбирането на текста.</p>
+                <a href="bulgarian.html">Обратно към уроците по Български език</a>
             </div>
         </section>
     </main>

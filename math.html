@@ -74,12 +74,19 @@
             margin: 1rem auto;
             max-width: 800px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .article img {
-            width: 100%;
+            width: 150px;
+            height: auto;
             border-radius: 12px;
-            margin-bottom: 1rem;
+        }
+
+        .article-content {
+            flex: 1;
         }
 
         .article h3 {
@@ -138,16 +145,16 @@
         <section>
             <h2>Математика</h2>
             <div class="article">
-                <img src="equations.jpg" alt="Уравнения">
+                <img src="math1.jpg" alt="Уравнения">
                 <h3>Основи на линейните уравнения</h3>
                 <p>Научете как да решавате линейни уравнения с една променлива...</p>
-                <a href="equations.html">Прочети</a>
+                <a href="math1.html">Прочети</a>
             </div>
             <div class="article">
-                <img src="geometry.jpg" alt="Геометрия">
+                <img src="math2.jpg" alt="Геометрия">
                 <h3>Геометрични фигури и техните свойства</h3>
                 <p>Разберете основите на геометрията: как да изчислявате площи...</p>
-                <a href="geometry.html">Прочети</a>
+                <a href="math2.html">Прочети</a>
             </div>
         </section>
     </main>
