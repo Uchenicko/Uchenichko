@@ -123,6 +123,47 @@
             margin: 0;
             font-size: 0.9rem;
         }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #0078d4;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .cookie-banner.hidden {
+            transform: translateY(100%);
+        }
+
+        .cookie-banner p {
+            margin: 0;
+        }
+
+        .cookie-banner button {
+            background: #0056a6;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cookie-banner button:hover {
+            background: #003f7f;
+        }
     </style>
 </head>
 <body>
@@ -134,6 +175,7 @@
                 <li><a href="lessons.html">Уроци</a></li>
                 <li><a href="about.html">За нас</a></li>
                 <li><a href="support.html">Support</a></li>
+                <li><a href="homeworks.html">Домашни</a></li>
             </ul>
         </nav>
     </header>
@@ -141,10 +183,67 @@
         <section>
             <h2>Добре дошли в Ученичко</h2>
             <p>Открийте знания за различни предмети и подобрете уменията си.</p>
+            </div>
+            
         </section>
     </main>
     <footer>
         <p>&copy; 2024 Ученичко. Всички права запазени.</p>
     </footer>
+        <script>
+    const homeworkList = document.getElementById("homework-list");
+    const homeworkForm = document.getElementById("homework-form");
+    const homeworkTitle = document.getElementById("homework-title");
+    const homeworkDetails = document.getElementById("homework-details");
+
+    // Зареждане на домашните от LocalStorage
+    function loadHomeworks() {
+        const savedHomeworks = JSON.parse(localStorage.getItem("homeworks")) || [];
+        savedHomeworks.forEach((homework) => addHomeworkToList(homework.title, homework.details));
+    }
+
+    // Добавяне на домашно към списъка и LocalStorage
+    function addHomeworkToList(title, details) {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span><strong>${title}:</strong> ${details}</span>
+            <button class="delete">Изтрий</button>
+        `;
+
+        // Добавяне на събитие за изтриване
+        li.querySelector(".delete").addEventListener("click", function () {
+            homeworkList.removeChild(li);
+            saveHomeworks();
+        });
+
+        homeworkList.appendChild(li);
+        saveHomeworks();
+    }
+
+    // Запазване на домашните в LocalStorage
+    function saveHomeworks() {
+        const homeworks = [];
+        homeworkList.querySelectorAll("li").forEach((li) => {
+            const [title, details] = li.querySelector("span").textContent.split(": ");
+            homeworks.push({ title: title.trim(), details: details.trim() });
+        });
+        localStorage.setItem("homeworks", JSON.stringify(homeworks));
+    }
+
+    // Обработка на изпращането на формата
+    homeworkForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const title = homeworkTitle.value.trim();
+        const details = homeworkDetails.value.trim();
+        if (title && details) {
+            addHomeworkToList(title, details);
+            homeworkForm.reset();
+        }
+    });
+
+    // Зареждане на домашните при стартиране
+    window.onload = loadHomeworks;
+</script>
+
 </body>
 </html>
