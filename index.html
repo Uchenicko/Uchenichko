@@ -183,6 +183,13 @@
             <h2>Добре дошли в Ученичко</h2>
             <p>Открийте знания за различни предмети и подобрете уменията си.</p>
             </div>
+
+            <div class="section">
+                <h2>Въведете код за достъп за учители</h2>
+                <input type="text" id="teacherCode" placeholder="Въведете код за учители">
+                <button onclick="checkTeacherCode()">Проверете код</button>
+                <p id="teacherMessage" style="color: red;"></p>
+            </div>
             
         </section>
     </main>
@@ -190,6 +197,18 @@
         <p>&copy; 2024 Ученичко. Всички права запазени.</p>
     </footer>
         <script>
+            function checkTeacherCode() {
+            var enteredCode = document.getElementById("teacherCode").value;
+            var correctCode = "64717165";  // Тук поставяме кода за учителски достъп
+
+            if (enteredCode === correctCode) {
+                // Ако кодът е правилен, пренасочваме към teachdash.html
+                window.location.href = "teachdash.html";
+            } else {
+                // Ако кодът е неправилен, показваме съобщение
+                document.getElementById("teacherMessage").textContent = "Невалиден код. Моля, опитайте отново.";
+            }
+        }
     const homeworkList = document.getElementById("homework-list");
     const homeworkForm = document.getElementById("homework-form");
     const homeworkTitle = document.getElementById("homework-title");

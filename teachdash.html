@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учители - Дашборд</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .dropdown {
+            margin: 20px 0;
+        }
+        select, button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Дашборд за учители</h1>
+        <p>Изберете клас и предмет, за да продължите:</p>
+
+        <!-- Dropdown за клас -->
+        <div class="dropdown">
+            <label for="class-select">Клас:</label>
+            <select id="class-select">
+                <option value="" disabled selected>Изберете клас</option>
+                <script>
+                    for (let i = 1; i <= 12; i++) {
+                        document.write(`<option value="${i}">Клас ${i}</option>`);
+                    }
+                </script>
+            </select>
+        </div>
+
+        <!-- Dropdown за предмет -->
+        <div class="dropdown">
+            <label for="subject-select">Предмет:</label>
+            <select id="subject-select" disabled>
+                <option value="" disabled selected>Изберете предмет</option>
+            </select>
+        </div>
+
+        <!-- Бутон за потвърждение -->
+        <button id="confirm-button" disabled>Потвърди</button>
+    </div>
+
+    <script>
+        // Предмети според класовете
+        const subjectsByClass = {
+            1: ["Български език", "Математика", "Околен свят", "Изобразително изкуство", "Музика", "Физическо възпитание"],
+            2: ["Български език", "Математика", "Околен свят", "Изобразително изкуство", "Музика", "Физическо възпитание"],
+            3: ["Български език", "Математика", "Човекът и природата", "Човекът и обществото", "Изобразително изкуство", "Музика", "Физическо възпитание"],
+            4: ["Български език", "Математика", "Човекът и природата", "Човекът и обществото", "Изобразително изкуство", "Музика", "Физическо възпитание"],
+            5: ["Български език", "Литература", "Математика", "История", "География", "Човекът и природата", "Физическо възпитание", "Технологии и предприемачество"],
+            6: ["Български език", "Литература", "Математика", "История", "География", "Биология", "Физика", "Физическо възпитание"],
+            7: ["Български език", "Литература", "Математика", "История", "География", "Биология", "Химия", "Физика", "Физическо възпитание"],
+            8: ["Български език", "Литература", "Математика", "История", "География", "Биология", "Химия", "Физика", "Философия", "Чужд език"],
+            9: ["Български език", "Литература", "Математика", "История", "География", "Биология", "Химия", "Физика", "Информационни технологии", "Философия", "Чужд език"],
+            10: ["Български език", "Литература", "Математика", "История", "География", "Биология", "Химия", "Физика", "Философия", "Информационни технологии", "Чужд език"],
+            11: ["Български език", "Литература", "Математика", "История", "География", "Биология", "Химия", "Физика", "Философия", "Психология", "Чужд език"],
+            12: ["Български език", "Литература", "Математика", "История", "География", "Биология", "Химия", "Физика", "Философия", "Свят и личност", "Чужд език"]
+        };
+
+        const classSelect = document.getElementById("class-select");
+        const subjectSelect = document.getElementById("subject-select");
+        const confirmButton = document.getElementById("confirm-button");
+
+        classSelect.addEventListener("change", () => {
+            const selectedClass = classSelect.value;
+
+            // Премахване на предишните опции
+            subjectSelect.innerHTML = '<option value="" disabled selected>Изберете предмет</option>';
+
+            // Добавяне на предмети според избрания клас
+            if (subjectsByClass[selectedClass]) {
+                subjectsByClass[selectedClass].forEach(subject => {
+                    const option = document.createElement("option");
+                    option.value = subject.toLowerCase();
+                    option.textContent = subject;
+                    subjectSelect.appendChild(option);
+                });
+
+                subjectSelect.disabled = false;
+                confirmButton.disabled = true;
+            }
+        });
+
+        subjectSelect.addEventListener("change", () => {
+            confirmButton.disabled = !subjectSelect.value;
+        });
+
+        confirmButton.addEventListener("click", () => {
+            const selectedClass = classSelect.value;
+            const selectedSubject = subjectSelect.value;
+
+            if (!selectedClass || !selectedSubject) {
+                alert("Моля, изберете както клас, така и предмет.");
+                return;
+            }
+
+            const targetPage = `${selectedSubject}_${selectedClass}.html`;
+            window.location.href = targetPage;
+        });
+    </script>
+</body>
+</html>
