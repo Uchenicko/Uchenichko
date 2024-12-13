@@ -164,6 +164,40 @@
         .cookie-banner button:hover {
             background: #003f7f;
         }
+        .calendar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .day {
+            width: 80px;
+            height: 80px;
+            background-color: #ffcc99;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .day:hover {
+            background-color: #ff5733;
+            color: white;
+        }
+        .gift-box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e6e6e6;
+            border-radius: 10px;
+            display: none;
+        }
+        .gift-box img {
+            width: 100px;
+            height: 100px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -190,6 +224,9 @@
                 <button onclick="checkTeacherCode()">Проверете код</button>
                 <p id="teacherMessage" style="color: red;"></p>
             </div>
+
+    <div class="gift-box" id="gift-box"></div>
+            </div>
             
         </section>
     </main>
@@ -197,6 +234,101 @@
         <p>&copy; 2024 Ученичко. Всички права запазени.</p>
     </footer>
         <script>
+                    const gifts = {
+            1: {
+                text: "Стикери с коледни мотиви!",
+                image: "x-mas1.jpg"
+            },
+            2: {
+                text: "Мини викторина за Коледа!",
+                image: "x-mas2.jpg"
+            },
+            3: {
+                text: "Забавна домашна с коледни загадки.",
+                image: "x-mas3.jpg"
+            },
+            4: {
+                text: "Коледна песен, която можеш да споделиш.",
+                image: "x-mas4.jpg"
+            },
+            5: {
+                text: "Тайният урок! <a href='https://uchenicko.github.io/Uchenichko' target='_blank'>Кликни тук, за да видиш урока!</a>",
+            },
+            6: {
+                text: "Коледна шега за усмивка!",
+                image: "x-mas6.jpg"
+            },
+            7: {
+                text: "Шаблон за картичка, която можеш да изпратиш.",
+                image: "x-mas7.jpg"
+            },
+            8: {
+                text: "Мини игра с коледен сюжет.",
+                image: "x-mas8.jpg"
+            },
+            9: {
+                text: "Ръчно изработена коледна декорация.",
+                image: "x-mas9.jpg"
+            },
+            10: {
+                text: "Персонализирано коледно пожелание.",
+                image: "x-mas10.jpg"
+            }
+        };
+
+        // Проверяваме кога е последния път, когато потребителят е отворил подарък
+        function checkGiftAvailability(day) {
+            let lastOpened = localStorage.getItem('lastOpened');
+            let currentTime = new Date().getTime();
+
+            // Ако няма запис за последното отваряне, започваме с първия подарък
+            if (!lastOpened) {
+                if (day === 1) {
+                    localStorage.setItem('lastOpened', currentTime);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            // Ако са минали 24 часа, разрешаваме отваряне на следващия подарък
+            let timePassed = currentTime - lastOpened;
+            if (timePassed >= 86400000 * (day - 1)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // Функция за отваряне на подарък
+        function openGift(day) {
+            if (checkGiftAvailability(day)) {
+                localStorage.setItem('lastOpened', new Date().getTime()); // обновяваме времето на последното отваряне
+                document.getElementById('gift-box').style.display = 'block';
+                document.getElementById('gift-box').innerHTML = `
+                    <h2>Ден ${day}: ${gifts[day].text}</h2>
+                    <img src="${gifts[day].image}" alt="Подарък за ден ${day}">
+                    <p>Ще можеш да вземеш подаръка си утре!</p>
+                `;
+                document.getElementById(`day${day}`).style.backgroundColor = "#b2b2b2";
+                document.getElementById(`day${day}`).style.cursor = "not-allowed";
+                document.getElementById(`day${day}`).removeAttribute("onclick");
+            } else {
+                alert('Моля, изчакайте 24 часа, за да отворите следващия подарък!');
+            }
+        }
+
+        // Скриваме подаръците, които не са още достъпни
+        window.onload = function() {
+            const currentDate = new Date();
+            const startDate = new Date('2024-12-15'); // Начална дата - 15 декември
+
+            if (currentDate < startDate) {
+                document.getElementById('day1').style.cursor = "not-allowed";
+                document.getElementById('day1').onclick = null;
+                alert("Можете да започнете да отваряте подаръците след 15 декември!");
+            }
+        };
             function checkTeacherCode() {
             var enteredCode = document.getElementById("teacherCode").value;
             var correctCode = "64717165";  // Тук поставяме кода за учителски достъп

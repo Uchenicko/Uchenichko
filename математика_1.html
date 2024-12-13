@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Математика - 1 клас</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        .section h3 {
+            margin-top: 0;
+        }
+        .section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .section ul li {
+            margin: 10px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .task {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .task input {
+            padding: 5px;
+            margin-top: 10px;
+        }
+        .task span {
+            font-weight: bold;
+        }
+        .task p {
+            margin: 0;
+        }
+        .game {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .game a {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .game a:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Математика - 1 клас</h1>
+
+        <!-- Събиране и Изваждане -->
+        <div class="section">
+            <h3>Събиране и Изваждане</h3>
+            <div class="task">
+                <p><span>Задача 1:</span> 3 + 4 = ?</p>
+                <input type="number" id="task1" placeholder="Въведете отговор" />
+                <button onclick="checkAnswer('task1', 7)">Провери</button>
+                <p id="result1"></p>
+            </div>
+            <div class="task">
+                <p><span>Задача 2:</span> 9 - 5 = ?</p>
+                <input type="number" id="task2" placeholder="Въведете отговор" />
+                <button onclick="checkAnswer('task2', 4)">Провери</button>
+                <p id="result2"></p>
+            </div>
+            <div class="task">
+                <p><span>Задача 3:</span> 7 + 8 = ?</p>
+                <input type="number" id="task3" placeholder="Въведете отговор" />
+                <button onclick="checkAnswer('task3', 15)">Провери</button>
+                <p id="result3"></p>
+            </div>
+            <div class="task">
+                <p><span>Задача 4:</span> 10 - 2 = ?</p>
+                <input type="number" id="task4" placeholder="Въведете отговор" />
+                <button onclick="checkAnswer('task4', 8)">Провери</button>
+                <p id="result4"></p>
+            </div>
+            <div class="task">
+                <p><span>Задача 5:</span> 5 + 6 = ?</p>
+                <input type="number" id="task5" placeholder="Въведете отговор" />
+                <button onclick="checkAnswer('task5', 11)">Провери</button>
+                <p id="result5"></p>
+            </div>
+        </div>
+
+        <!-- Геометрия -->
+        <div class="section">
+            <h3>Геометрия</h3>
+            <div class="task">
+                <p><span>Задача 6:</span> Каква фигура има 4 равни страни?</p>
+                <input type="text" id="geoTask1" placeholder="Въведете отговор" />
+                <button onclick="checkGeometryAnswer('geoTask1', 'квадрат')">Провери</button>
+                <p id="geoResult1"></p>
+            </div>
+            <div class="task">
+                <p><span>Задача 7:</span> Каква фигура има 3 страни?</p>
+                <input type="text" id="geoTask2" placeholder="Въведете отговор" />
+                <button onclick="checkGeometryAnswer('geoTask2', 'триъгълник')">Провери</button>
+                <p id="geoResult2"></p>
+            </div>
+            <div class="task">
+                <p><span>Задача 8:</span> Каква фигура има 5 страни?</p>
+                <input type="text" id="geoTask3" placeholder="Въведете отговор" />
+                <button onclick="checkGeometryAnswer('geoTask3', 'петъгълник')">Провери</button>
+                <p id="geoResult3"></p>
+            </div>
+        </div>
+
+        <!-- Логически задачи -->
+        <div class="section">
+            <h3>Логически задачи</h3>
+            <div class="task">
+                <p><span>Задача 9:</span> Иван има 3 ябълки, а Петър има 4 ябълки. Колко ябълки имат двамата заедно?</p>
+                <input type="number" id="logicTask1" placeholder="Въведете отговор" />
+                <button onclick="checkAnswer('logicTask1', 7)">Провери</button>
+                <p id="logicResult1"></p>
+            </div>
+            <div class="task">
+                <p><span>Задача 10:</span> Анна има 6 бонбона, а Георги има 2 по-малко. Колко бонбона има Георги?</p>
+                <input type="number" id="logicTask2" placeholder="Въведете отговор" />
+                <button onclick="checkAnswer('logicTask2', 4)">Провери</button>
+                <p id="logicResult2"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer(taskId, correctAnswer) {
+            let userAnswer = document.getElementById(taskId).value;
+            if (parseInt(userAnswer) === correctAnswer) {
+                document.getElementById("result" + taskId.slice(-1)).innerText = "Правилен отговор!";
+                document.getElementById("result" + taskId.slice(-1)).style.color = "green";
+            } else {
+                document.getElementById("result" + taskId.slice(-1)).innerText = "Грешен отговор!";
+                document.getElementById("result" + taskId.slice(-1)).style.color = "red";
+            }
+        }
+
+        function checkGeometryAnswer(taskId, correctAnswer) {
+            let userAnswer = document.getElementById(taskId).value.toLowerCase();
+            if (userAnswer === correctAnswer) {
+                document.getElementById("geoResult" + taskId.slice(-1)).innerText = "Правилен отговор!";
+                document.getElementById("geoResult" + taskId.slice(-1)).style.color = "green";
+            } else {
+                document.getElementById("geoResult" + taskId.slice(-1)).innerText = "Грешен отговор!";
+                document.getElementById("geoResult" + taskId.slice(-1)).style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
