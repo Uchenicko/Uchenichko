@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Въпросителни и Отрицателни Изречения</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .content {
+            padding: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        p {
+            line-height: 1.6;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        .exercise {
+            background-color: #e7f7e7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .exercise input {
+            margin-right: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Какво са въпросителни и отрицателни изречения?</h1>
+</header>
+
+<div class="content">
+    <h2>Какво е въпросително изречение?</h2>
+    <p>Въпросителните изречения са такива, които задават въпроси. Когато искаш да попиташ нещо, използваш въпросително изречение.</p>
+    <p><strong>Пример:</strong> <em>Как се казваш?</em></p>
+    <p><strong>Важно!</strong> Не забравяй да сложиш въпросителен знак в края на въпроса.</p>
+
+    <h2>Какво е отрицателно изречение?</h2>
+    <p>Отрицателните изречения показват, че нещо не е вярно. За да направиш изречението отрицателно, използваш думата "не".</p>
+    <p><strong>Пример:</strong> <em>Аз не обичам моркови.</em></p>
+
+    <h2>Как да преобразуваме изреченията?</h2>
+    <p><strong>Пример:</strong></p>
+    <ul>
+        <li><strong>Твърдение:</strong> Аз играя на футбол. <strong>Въпросително изречение:</strong> Играш ли на футбол?</li>
+        <li><strong>Твърдение:</strong> Тя обича да чете. <strong>Отрицателно изречение:</strong> Тя не обича да чете.</li>
+    </ul>
+
+    <h2>Какви въпросителни думи използваме?</h2>
+    <p>Въпросителните изречения често започват с въпросителни думи, като "Как", "Къде", "Какво", "Кога", "Кой". Те ни помагат да зададем конкретни въпроси.</p>
+
+    <h2>Упражнения за теб!</h2>
+
+    <div class="exercise">
+        <h3>Упражнение 1: Преобразувай изреченията в въпросителни.</h3>
+        <ul>
+            <li>1. Ти обичаш животни. <input type="text" id="answer1" placeholder="Отговор..."></li>
+            <li>2. Тя ходи на училище. <input type="text" id="answer2" placeholder="Отговор..."></li>
+            <li>3. Ние ще играем на футбол. <input type="text" id="answer3" placeholder="Отговор..."></li>
+            <li>4. Моята сестра има котка. <input type="text" id="answer4" placeholder="Отговор..."></li>
+            <li>5. Те ще ни посетят. <input type="text" id="answer5" placeholder="Отговор..."></li>
+        </ul>
+        <button onclick="checkAnswers()">Провери отговорите</button>
+        <div id="result" class="result"></div>
+    </div>
+
+</div>
+
+<script>
+    function checkAnswers() {
+        var correctAnswers = [
+            "Обичаш ли животни?", 
+            "Ходи ли тя на училище?", 
+            "Ще играете ли на футбол?", 
+            "Има ли твоята сестра котка?", 
+            "Ще ни посетят ли те?"
+        ];
+        
+        var userAnswers = [
+            document.getElementById("answer1").value,
+            document.getElementById("answer2").value,
+            document.getElementById("answer3").value,
+            document.getElementById("answer4").value,
+            document.getElementById("answer5").value
+        ];
+
+        var resultText = "";
+        var correctCount = 0;
+
+        for (var i = 0; i < correctAnswers.length; i++) {
+            if (userAnswers[i] === correctAnswers[i]) {
+                correctCount++;
+            }
+        }
+
+        if (correctCount === correctAnswers.length) {
+            resultText = "Поздравления! Всички отговори са правилни.";
+        } else {
+            resultText = "Опитай пак! Някои отговори не са правилни.";
+        }
+
+        document.getElementById("result").innerText = resultText;
+    }
+</script>
+
+</body>
+</html>

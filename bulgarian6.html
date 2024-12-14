@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Буквите в българския език - 1 клас</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .content {
+            padding: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        h3 {
+            color: #3e8e41;
+        }
+        .exercise {
+            background-color: #e7f7e7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .exercise input {
+            margin-right: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Буквите в българския език</h1>
+</header>
+
+<div class="content">
+    <h2>Какво са буквите?</h2>
+    <p>Буквите са знаците, които използваме, за да пишем и четем. В българския език има 30 букви. Те ни помагат да съставяме думи и изречения. Когато знаем буквите, можем да разпознаваме думи и да четем текстове.</p>
+
+    <h3>Как изглеждат буквите?</h3>
+    <p>Всеки знак, който виждаме, е буква. Някои букви са големи, а други – малки. Например:</p>
+    <ul>
+        <li>**А** и **а**</li>
+        <li>**Б** и **б**</li>
+        <li>**В** и **в**</li>
+    </ul>
+    <p>Когато пишем, използваме големи букви в началото на изреченията или имена на хора и места. Малките букви използваме в средата на думите.</p>
+
+    <h3>Какво можем да правим с буквите?</h3>
+    <p>С буквите създаваме думи. Всяка дума има значение. Например:</p>
+    <ul>
+        <li>**къща**</li>
+        <li>**дете**</li>
+        <li>**слънце**</li>
+    </ul>
+    <p>Когато свързваме думи в изречения, можем да разкажем истории. Ето едно просто изречение:</p>
+    <p><em>Дете играе в парка.</em></p>
+
+    <h3>Как да научим буквите?</h3>
+    <p>За да научим буквите, трябва да ги пишем и четем често. Можем да започнем с буквите от А до З и да ги свързваме в думи. </p>
+
+    <h3>Упражнение 1: Намери буквите</h3>
+    <div class="exercise">
+        <label for="exercise1">Вземете буквата **А** и **а**. Кой е правилният ред? (въведете отговора): </label>
+        <input type="text" id="exercise1" placeholder="Попълни отговора...">
+        <button onclick="checkAnswer()">Провери отговора</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <h3>Упражнение 2: Напиши думи</h3>
+    <p>Използвай буквите, които научи, за да напишеш думи:</p>
+    <ul>
+        <li>котка</li>
+        <li>баба</li>
+        <li>птица</li>
+    </ul>
+
+    <h3>Упражнение 3: Създай изречения</h3>
+    <p>След като научиш буквите и думите, можеш да създадеш изречения:</p>
+    <ul>
+        <li>Децата играят в двора.</li>
+        <li>Котката скача.</li>
+    </ul>
+
+    <h3>Заключение</h3>
+    <p>Буквите са основата на българския език. Когато ги научим, можем да четем и пишем всякакви думи и изречения. Това е забавно и полезно, защото така можем да разказваме истории, да съобщаваме неща и да се учим постоянно!</p>
+</div>
+
+<script>
+    function checkAnswer() {
+        var userAnswer = document.getElementById("exercise1").value.trim();
+        var correctAnswer = "Аа";
+
+        if (userAnswer === correctAnswer) {
+            document.getElementById("result").innerText = "Правилно! Позна! Буквите са подредени както трябва.";
+        } else {
+            document.getElementById("result").innerText = "Опитай пак! Не забравяй реда на буквите.";
+        }
+    }
+</script>
+
+</body>
+</html>

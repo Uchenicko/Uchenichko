@@ -218,6 +218,43 @@
             <p>Открийте знания за различни предмети и подобрете уменията си.</p>
             </div>
 
+            <section id="pro-version" style="padding: 20px; background-color: #f8f9fa; border-radius: 8px; text-align: center; margin: 20px auto; width: 90%; max-width: 600px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <h2 style="color: #333;">Преминете към Pro версията!</h2>
+                <p style="color: #555; font-size: 16px; line-height: 1.5;">
+                  С Pro версията на "Ученичко" ще получите достъп до:
+                  <ul style="text-align: left; margin: 10px auto; display: inline-block;">
+                    <li>Ексклузивни уроци</li>
+                    <li>Допълнителни упражнения</li>
+                    <li>Специални ресурси и материали</li>
+                  </ul>
+                  Цена: <b>2 лв/месец</b>.
+                </p>
+                <!-- PayPal Button -->
+                <div id="paypal-button-container-P-1VL891691X568314LM5O6HZQ"></div>
+              </section>
+              
+              <script src="https://www.paypal.com/sdk/js?client-id=AUPKJhcjkLKw5tg-Zs0viMpWppKNJ5ibmqlugPeUoeyMZ2ufp8UTCxi-qu1BA7JReEjYG7f_8zQpZtrq&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+              <script>
+                paypal.Buttons({
+                    style: {
+                        shape: 'pill',
+                        color: 'gold',
+                        layout: 'vertical',
+                        label: 'subscribe'
+                    },
+                    createSubscription: function(data, actions) {
+                      return actions.subscription.create({
+                        /* Creates the subscription */
+                        plan_id: 'P-1VL891691X568314LM5O6HZQ'
+                      });
+                    },
+                    onApprove: function(data, actions) {
+                      alert("Успешен абонамент! Вашият код е: " + data.subscriptionID);
+                    }
+                }).render('#paypal-button-container-P-1VL891691X568314LM5O6HZQ'); // Renders the PayPal button
+              </script>
+              
+
             <div class="section">
                 <h2>Въведете код за достъп за учители</h2>
                 <input type="text" id="teacherCode" placeholder="Въведете код за учители">
@@ -234,48 +271,6 @@
         <p>&copy; 2024 Ученичко. Всички права запазени.</p>
     </footer>
         <script>
-                    const gifts = {
-            1: {
-                text: "Стикери с коледни мотиви!",
-                image: "x-mas1.jpg"
-            },
-            2: {
-                text: "Мини викторина за Коледа!",
-                image: "x-mas2.jpg"
-            },
-            3: {
-                text: "Забавна домашна с коледни загадки.",
-                image: "x-mas3.jpg"
-            },
-            4: {
-                text: "Коледна песен, която можеш да споделиш.",
-                image: "x-mas4.jpg"
-            },
-            5: {
-                text: "Тайният урок! <a href='https://uchenicko.github.io/Uchenichko' target='_blank'>Кликни тук, за да видиш урока!</a>",
-            },
-            6: {
-                text: "Коледна шега за усмивка!",
-                image: "x-mas6.jpg"
-            },
-            7: {
-                text: "Шаблон за картичка, която можеш да изпратиш.",
-                image: "x-mas7.jpg"
-            },
-            8: {
-                text: "Мини игра с коледен сюжет.",
-                image: "x-mas8.jpg"
-            },
-            9: {
-                text: "Ръчно изработена коледна декорация.",
-                image: "x-mas9.jpg"
-            },
-            10: {
-                text: "Персонализирано коледно пожелание.",
-                image: "x-mas10.jpg"
-            }
-        };
-
         // Проверяваме кога е последния път, когато потребителят е отворил подарък
         function checkGiftAvailability(day) {
             let lastOpened = localStorage.getItem('lastOpened');

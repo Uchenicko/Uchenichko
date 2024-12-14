@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игри с думи</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff9999;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            color: white;
+        }
+        main {
+            padding: 20px;
+        }
+        .game-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #ffe6e6;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .game-section h2 {
+            margin-top: 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px;
+            background: #cc0000;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #a30000;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #ff9999;
+        }
+    </style>
+    <script>
+        function checkAnswer(gameId, correctAnswer) {
+            const selectedOption = document.querySelector(`input[name="${gameId}"]:checked`);
+            const resultElement = document.getElementById(`${gameId}-result`);
+            if (selectedOption) {
+                if (selectedOption.value === correctAnswer) {
+                    resultElement.textContent = "Верен отговор! 🎉";
+                    resultElement.style.color = "green";
+                } else {
+                    resultElement.textContent = "Грешен отговор. Опитайте пак! ❌";
+                    resultElement.style.color = "red";
+                }
+            } else {
+                resultElement.textContent = "Моля, изберете отговор.";
+                resultElement.style.color = "orange";
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Игри с думи</h1>
+    </header>
+
+    <main>
+        <section class="game-section">
+            <h2>Игра 1: Намери думата</h2>
+            <p>Описание: Открий скритата дума сред буквите.</p>
+            <button class="button">Играй</button>
+        </section>
+
+        <section class="game-section">
+            <h2>Игра 2: Подреди буквите</h2>
+            <p>Описание: Разбърканите букви трябва да се подредят, за да съставят правилна дума.</p>
+            <button class="button">Играй</button>
+        </section>
+
+        <section class="game-section">
+            <h2>Игра 3: Открий синонима</h2>
+            <p>Описание: Коя дума е синоним на „бърз“?</p>
+            <ul>
+                <li><input type="radio" name="game3" value="скоростен"> скоростен</li>
+                <li><input type="radio" name="game3" value="бавен"> бавен</li>
+                <li><input type="radio" name="game3" value="силен"> силен</li>
+            </ul>
+            <button class="button" onclick="checkAnswer('game3', 'скоростен')">Провери</button>
+            <p id="game3-result" class="result"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Ученичко. Всички права запазени.</p>
+        <a href="index.html" class="button">Обратно към началото</a>
+    </footer>
+</body>
+</html>
