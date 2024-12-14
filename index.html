@@ -225,41 +225,124 @@
                 <p id="teacherMessage" style="color: red;"></p>
             </div>
 
-            <section id="pro-version" style="padding: 20px; background-color: #f8f9fa; border-radius: 8px; text-align: center; margin: 20px auto; width: 90%; max-width: 600px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                <h2 style="color: #333;">Преминете към Pro версията!</h2>
-                <p style="color: #555; font-size: 16px; line-height: 1.5;">
-                  С Pro версията на "Ученичко" ще получите достъп до:
-                  <ul style="text-align: left; margin: 10px auto; display: inline-block;">
-                    <li>Ексклузивни уроци</li>
-                    <li>Допълнителни упражнения</li>
-                    <li>Специални ресурси и материали</li>
-                  </ul>
-                  Цена: <b>2 лв/месец</b>.
-                </p>
-                <!-- PayPal Button -->
-                <div id="paypal-button-container-P-1VL891691X568314LM5O6HZQ"></div>
-              </section>
-              
-              <script src="https://www.paypal.com/sdk/js?client-id=AUPKJhcjkLKw5tg-Zs0viMpWppKNJ5ibmqlugPeUoeyMZ2ufp8UTCxi-qu1BA7JReEjYG7f_8zQpZtrq&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
-              <script>
-                paypal.Buttons({
-                    style: {
-                        shape: 'pill',
-                        color: 'gold',
-                        layout: 'vertical',
-                        label: 'subscribe'
-                    },
-                    createSubscription: function(data, actions) {
-                      return actions.subscription.create({
-                        /* Creates the subscription */
-                        plan_id: 'P-1VL891691X568314LM5O6HZQ'
-                      });
-                    },
-                    onApprove: function(data, actions) {
-                      alert("Успешен абонамент! Вашият код е: " + data.subscriptionID);
-                    }
-                }).render('#paypal-button-container-P-1VL891691X568314LM5O6HZQ'); // Renders the PayPal button
-              </script>
+<!-- Секция за PayPal Hosted Button -->
+<div id="paypal-container"></div>
+
+<!-- Секция за показване на VIP код -->
+<p id="vip-code-message" style="display: none;">Вашият VIP код е: <span id="vip-code"></span></p>
+
+<!-- Поле за въвеждане на VIP код -->
+<div id="vip-section" style="margin-top: 20px;">
+  <h3>Въведете VIP кода си:</h3>
+  <input type="text" id="vip-input" placeholder="Въведете кода тук">
+  <button id="activate-vip">Активирай VIP</button>
+  <p id="vip-status" style="color: red;"></p>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
+
+<script>
+  // Инициализиране на PayPal Hosted Button
+  paypal.HostedButtons({
+    hostedButtonId: "YOUR_HOSTED_BUTTON_ID",  // Добави твоето уникално ID за бутон
+  }).render("#paypal-container");
+
+  // При успешен абонамент, генерираме уникален VIP код
+  paypal.HostedButtons({
+    hostedButtonId: "YOUR_HOSTED_BUTTON_ID",
+    onApprove: function(data, actions) {
+      const vipCode = 'VIP-' + Math.random().toString(36).substring(2, 8).toUpperCase(); // Генериране на уникален код
+      document.getElementById('vip-code-message').style.display = 'block';
+      document.getElementById('vip-code').innerText = vipCode;
+
+      // Изпращане на VIP код на имейла на потребителя
+      sendVIPCodeEmail(data, vipCode);
+      
+      // Съхраняване на VIP код на сървър, ако е необходимо
+      fetch('/save-vip-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subscriptionID: data.subscriptionID,
+          vipCode: vipCode,
+          validUntil: new Date(new Date().setMonth(new Date().getMonth() + 1)) // VIP кодът е валиден 1 месец
+        })
+      }).then(res => res.json())
+        .then(response => {
+          if (response.success) {
+            alert('Вашият VIP код е създаден успешно!');
+          }
+        }).catch(err => {
+          console.error('Грешка при съхранение на VIP кода:', err);
+        });
+    }
+  });
+
+  // Функция за изпращане на VIP код на имейл
+  function sendVIPCodeEmail(paymentData, vipCode) {
+    // Тук трябва да извикаш сървърна функция за изпращане на имейл
+    fetch('/send-vip-code-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: paymentData.payer.email,
+        vipCode: vipCode
+      })
+    }).then(res => res.json())
+      .then(response => {
+        if (response.success) {
+          console.log('VIP кодът е изпратен на имейла на потребителя!');
+        }
+      }).catch(err => {
+        console.error('Грешка при изпращането на имейл:', err);
+      });
+  }
+
+  // Активиране на VIP достъп чрез въвеждане на VIP код
+  document.getElementById('activate-vip').addEventListener('click', () => {
+    const vipCodeInput = document.getElementById('vip-input').value;
+
+    // Проверка на въведения VIP код на сървъра
+    fetch('/verify-vip-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vipCode: vipCodeInput })
+    }).then(res => res.json())
+      .then(response => {
+        if (response.valid) {
+          document.getElementById('vip-status').style.color = 'green';
+          document.getElementById('vip-status').innerText = 'VIP достъп активиран успешно!';
+          // Активирай предимства или съдържание за VIP
+          activateVIPContent();
+        } else {
+          document.getElementById('vip-status').innerText = 'Невалиден или изтекъл код!';
+        }
+      }).catch(err => {
+        console.error('Грешка при проверка на VIP кода:', err);
+      });
+  });
+
+  // Функция за активиране на VIP съдържание
+  function activateVIPContent() {
+    // Пример: Покажи специално съдържание за VIP
+    alert('Достъпът до ексклузивни уроци е активиран!');
+    // Може да добавиш реално съдържание тук
+  }
+</script>
+
+
+  <!-- Контейнер за PayPal Hosted Button -->
+  <h2>Абонамент за VIP достъп</h2>
+  <div id="paypal-container-VPW9T6DMM2VQ6"></div>
+
+  <script src="https://www.paypal.com/sdk/js?client-id=BAAOfAXVApt484Fpki9wG-5KvpXwSIKazr0Qa8VNAmlrUvIjWM46IOEfNj5gLY-_-KURe5lfFn4h8qXYM0&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
+
+  <script>
+    // Интегриране на PayPal Hosted Button
+    paypal.HostedButtons({
+      hostedButtonId: "VPW9T6DMM2VQ6", // ID на съществуващия бутон в PayPal
+    }).render("#paypal-container-VPW9T6DMM2VQ6"); // Рендиране на бутона в съответния контейнер
+  </script>
               
 
     <div class="gift-box" id="gift-box"></div>
