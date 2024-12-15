@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Плащане</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=BGN"></script>
+<style>
+    /* Основни стилове */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 2rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#paypal-button-container {
+    margin: 1rem 0;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    color: #fff;
+    background: #0070ba;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #005fa3;
+}
+
+/* Стилове за активираната VIP версия */
+body.pro-version {
+    background: linear-gradient(to right, #ffd700, #ffcc00);
+    color: #333;
+}
+
+body.pro-version header {
+    background: #ffd700;
+    color: #000;
+}
+
+body.pro-version::before {
+    content: "PRO VERSION";
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: #ffd700;
+    background: #333;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+    <header>
+        <h1>VIP Плащане</h1>
+    </header>
+    <main>
+        <section id="payment-section">
+            <h2>VIP версия за 8 лв (еднократно)</h2>
+            <div id="paypal-button-container"></div>
+            <div id="vip-code-section" style="display:none;">
+                <h3>Вашият VIP код:</h3>
+                <p id="vip-code"></p>
+                <button onclick="copyVipCode()">Копирай кода</button>
+            </div>
+        </section>
+
+        <section id="vip-activation">
+            <h2>Въведете VIP код:</h2>
+            <input type="text" id="vip-input" placeholder="Вашият VIP код">
+            <button onclick="activateVip()">Активирай</button>
+            <p id="activation-message"></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Ученичко. Всички права запазени.</p>
+    </footer>
+
+    <script>
+        let generatedVipCode = "";
+
+        // PayPal бутон за плащане
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '8.00'
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Благодарим ви за покупката, ' + details.payer.name.given_name + '!');
+
+                    // Генериране на уникален VIP код
+                    generatedVipCode = 'VIP-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+                    document.getElementById('vip-code').innerText = generatedVipCode;
+                    document.getElementById('vip-code-section').style.display = 'block';
+
+                    // Запазване на VIP кода локално
+                    localStorage.setItem('vipCode', generatedVipCode);
+                });
+            },
+            onError: function(err) {
+                console.error('Грешка при плащане: ', err);
+                alert('Възникна грешка при плащането. Опитайте отново.');
+            }
+        }).render('#paypal-button-container');
+
+        // Функция за копиране на VIP кода
+        function copyVipCode() {
+            navigator.clipboard.writeText(generatedVipCode).then(() => {
+                alert('VIP кодът е копиран успешно!');
+            }).catch(err => {
+                console.error('Грешка при копирането на кода: ', err);
+            });
+        }
+
+        // Функция за активиране на VIP код
+        function activateVip() {
+            const enteredCode = document.getElementById('vip-input').value;
+            const storedCode = localStorage.getItem('vipCode');
+
+            if (enteredCode === storedCode) {
+                document.getElementById('activation-message').innerText = "Вашият VIP код е активиран!";
+                document.body.classList.add('pro-version'); // Прилагаме PRO версията
+            } else {
+                document.getElementById('activation-message').innerText = "Невалиден VIP код. Опитайте отново.";
+            }
+        }
+    </script>
+</body>
+</html>
