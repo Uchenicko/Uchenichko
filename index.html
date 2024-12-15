@@ -256,7 +256,6 @@
                 <p id="teacherMessage" style="color: red;"></p>
             </div>
 
-
 <!-- Секция за VIP плащане и активиране -->
 <section id="vip-section">
     <h2>Получете VIP версията за 8 лв еднократно</h2>
@@ -280,7 +279,9 @@
     <button onclick="activateVip()">Активирай</button>
     <p id="activation-message"></p>
 </section>
+
 <script src="https://www.paypal.com/sdk/js?client-id=BAAxJPYMr4csS9VsWQDlOjBa9StnLgEaGTumX72my-5knLLJcNx2PAfLLy3mdM-CZ_9e4FvsHAFitn7j18&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
+
 
 
               <footer>
@@ -288,7 +289,11 @@
               </footer>
 
     <script>
-           let generatedVipCode = "VIP12345";  // Тук може да генерираш уникален код
+            let generatedVipCode = "VIP58D4F85S2C7"; // Тук може да генерираш уникален код
+    let finalPrice = 8; // Стандартна цена
+    const validPromoCode = "69News"; // Промо код
+    const discountPercentage = 20; // Отстъпка 20%
+
     // Ако вече има съхранен VIP код, използвай го
     const storedVipCode = localStorage.getItem('vipCode');
     if (storedVipCode) {
@@ -320,10 +325,10 @@
         const visibilityButton = document.getElementById('toggle-code-visibility');
         if (vipCodeElement.style.display === 'none') {
             vipCodeElement.style.display = 'inline';
-            visibilityButton.innerHTML = '👁️'; // Око показващо кода
+            visibilityButton.innerHTML = '👁️';
         } else {
             vipCodeElement.style.display = 'none';
-            visibilityButton.innerHTML = '👁️‍🗨️'; // Око със скрит код
+            visibilityButton.innerHTML = '👁️‍🗨️';
         }
     }
 
@@ -334,7 +339,7 @@
 
         if (enteredCode === savedVipCode) {
             document.getElementById('activation-message').textContent = "Вашият VIP код е активиран!";
-            document.body.classList.add("vip-version"); // Добавя VIP стилове
+            document.body.classList.add("vip-version");
         } else {
             document.getElementById('activation-message').textContent = "Невалиден VIP код!";
         }
@@ -343,6 +348,22 @@
     // Функция за съхранение на VIP код в localStorage след плащане
     function storeVipCode() {
         localStorage.setItem('vipCode', generatedVipCode);
+    }
+
+    // Функция за прилагане на промо код
+    function applyPromoCode() {
+        const promoInput = document.getElementById('promo-code').value;
+        const promoMessage = document.getElementById('promo-message');
+
+        if (promoInput === validPromoCode) {
+            finalPrice = 8 - (8 * discountPercentage / 100);
+            document.getElementById('final-price').textContent = `Крайна цена: ${finalPrice.toFixed(2)} лв`;
+            promoMessage.textContent = "Промо кодът е приложен успешно!";
+            promoMessage.style.color = "green";
+        } else {
+            promoMessage.textContent = "Невалиден промо код!";
+            promoMessage.style.color = "red";
+        }
     }
 
     function checkTeacherCode() {
