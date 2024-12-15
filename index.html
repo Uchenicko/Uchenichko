@@ -198,6 +198,37 @@
             height: 100px;
             margin-top: 10px;
         }
+        /* Стилове за VIP версията */
+.vip-version {
+    background-color: #f0e68c;
+    color: #000;
+    font-weight: bold;
+}
+
+.vip-version #vip-section h2 {
+    color: #FFD700; /* Златен цвят за заглавието */
+}
+
+.vip-version .vip-section input,
+.vip-version .vip-section button {
+    background-color: #FFD700;
+    color: #fff;
+    border: 1px solid #FFD700;
+}
+
+.vip-version .vip-section button:hover {
+    background-color: #ffcc00;
+    cursor: pointer;
+}
+
+/* Стилове за текст с надпис PRO VERSION */
+.vip-version #vip-section h2::after {
+    content: ' - PRO VERSION';
+    font-size: 18px;
+    color: gold;
+    font-weight: bold;
+}
+
     </style>
 </head>
 <body>
@@ -225,253 +256,151 @@
                 <p id="teacherMessage" style="color: red;"></p>
             </div>
 
-<!-- Секция за PayPal Hosted Button -->
-<div id="paypal-container"></div>
 
-<!-- Секция за показване на VIP код -->
-<p id="vip-code-message" style="display: none;">Вашият VIP код е: <span id="vip-code"></span></p>
+<!-- Секция за VIP плащане и активиране -->
+<section id="vip-section">
+    <h2>Получете VIP версията за 8 лв еднократно</h2>
 
-<!-- Поле за въвеждане на VIP код -->
-<div id="vip-section" style="margin-top: 20px;">
-  <h3>Въведете VIP кода си:</h3>
-  <input type="text" id="vip-input" placeholder="Въведете кода тук">
-  <button id="activate-vip">Активирай VIP</button>
-  <p id="vip-status" style="color: red;"></p>
-</div>
+    <!-- PayPal бутон за плащане -->
+    <div id="paypal-button-container-LPWL4HA79JYQL"></div>
 
-<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
+    <!-- Раздел с VIP код, който се показва след успешна покупка -->
+    <div id="vip-code-section" style="display:none;">
+        <h3>Вашият VIP код:</h3>
+        <div id="vip-code-container">
+            <span id="vip-code"></span>
+            <button id="toggle-code-visibility" onclick="toggleCodeVisibility()">👁️</button> <!-- Бутон за показване/скриване -->
+        </div>
+        <button onclick="copyVipCode()">Копирай кода</button>
+    </div>
 
-<script>
-  // Инициализиране на PayPal Hosted Button
-  paypal.HostedButtons({
-    hostedButtonId: "YOUR_HOSTED_BUTTON_ID",  // Добави твоето уникално ID за бутон
-  }).render("#paypal-container");
+    <!-- Активиране на VIP версията -->
+    <h3>Активирайте VIP версията:</h3>
+    <input type="text" id="vip-input" placeholder="Въведете VIP код">
+    <button onclick="activateVip()">Активирай</button>
+    <p id="activation-message"></p>
+</section>
+<script src="https://www.paypal.com/sdk/js?client-id=BAAxJPYMr4csS9VsWQDlOjBa9StnLgEaGTumX72my-5knLLJcNx2PAfLLy3mdM-CZ_9e4FvsHAFitn7j18&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
 
-  // При успешен абонамент, генерираме уникален VIP код
-  paypal.HostedButtons({
-    hostedButtonId: "YOUR_HOSTED_BUTTON_ID",
-    onApprove: function(data, actions) {
-      const vipCode = 'VIP-' + Math.random().toString(36).substring(2, 8).toUpperCase(); // Генериране на уникален код
-      document.getElementById('vip-code-message').style.display = 'block';
-      document.getElementById('vip-code').innerText = vipCode;
 
-      // Изпращане на VIP код на имейла на потребителя
-      sendVIPCodeEmail(data, vipCode);
-      
-      // Съхраняване на VIP код на сървър, ако е необходимо
-      fetch('/save-vip-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          subscriptionID: data.subscriptionID,
-          vipCode: vipCode,
-          validUntil: new Date(new Date().setMonth(new Date().getMonth() + 1)) // VIP кодът е валиден 1 месец
-        })
-      }).then(res => res.json())
-        .then(response => {
-          if (response.success) {
-            alert('Вашият VIP код е създаден успешно!');
-          }
-        }).catch(err => {
-          console.error('Грешка при съхранение на VIP кода:', err);
-        });
+              <footer>
+                <p>&copy; 2024 Ученичко. Всички права запазени.</p>
+              </footer>
+
+    <script>
+           let generatedVipCode = "VIP12345";  // Тук може да генерираш уникален код
+    // Ако вече има съхранен VIP код, използвай го
+    const storedVipCode = localStorage.getItem('vipCode');
+    if (storedVipCode) {
+        generatedVipCode = storedVipCode;
+        document.getElementById('vip-code').innerText = generatedVipCode;
+        document.getElementById('vip-code-section').style.display = 'block';
     }
-  });
 
-  // Функция за изпращане на VIP код на имейл
-  function sendVIPCodeEmail(paymentData, vipCode) {
-    // Тук трябва да извикаш сървърна функция за изпращане на имейл
-    fetch('/send-vip-code-email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: paymentData.payer.email,
-        vipCode: vipCode
-      })
-    }).then(res => res.json())
-      .then(response => {
-        if (response.success) {
-          console.log('VIP кодът е изпратен на имейла на потребителя!');
-        }
-      }).catch(err => {
-        console.error('Грешка при изпращането на имейл:', err);
-      });
-  }
-
-  // Активиране на VIP достъп чрез въвеждане на VIP код
-  document.getElementById('activate-vip').addEventListener('click', () => {
-    const vipCodeInput = document.getElementById('vip-input').value;
-
-    // Проверка на въведения VIP код на сървъра
-    fetch('/verify-vip-code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ vipCode: vipCodeInput })
-    }).then(res => res.json())
-      .then(response => {
-        if (response.valid) {
-          document.getElementById('vip-status').style.color = 'green';
-          document.getElementById('vip-status').innerText = 'VIP достъп активиран успешно!';
-          // Активирай предимства или съдържание за VIP
-          activateVIPContent();
-        } else {
-          document.getElementById('vip-status').innerText = 'Невалиден или изтекъл код!';
-        }
-      }).catch(err => {
-        console.error('Грешка при проверка на VIP кода:', err);
-      });
-  });
-
-  // Функция за активиране на VIP съдържание
-  function activateVIPContent() {
-    // Пример: Покажи специално съдържание за VIP
-    alert('Достъпът до ексклузивни уроци е активиран!');
-    // Може да добавиш реално съдържание тук
-  }
-</script>
-
-
-  <!-- Контейнер за PayPal Hosted Button -->
-  <h2>Абонамент за VIP достъп</h2>
-  <div id="paypal-container-VPW9T6DMM2VQ6"></div>
-
-  <script src="https://www.paypal.com/sdk/js?client-id=BAAOfAXVApt484Fpki9wG-5KvpXwSIKazr0Qa8VNAmlrUvIjWM46IOEfNj5gLY-_-KURe5lfFn4h8qXYM0&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
-
-  <script>
-    // Интегриране на PayPal Hosted Button
+    // PayPal бутон за плащане
     paypal.HostedButtons({
-      hostedButtonId: "VPW9T6DMM2VQ6", // ID на съществуващия бутон в PayPal
-    }).render("#paypal-container-VPW9T6DMM2VQ6"); // Рендиране на бутона в съответния контейнер
-  </script>
-              
+        hostedButtonId: "LPWL4HA79JYQL",
+    }).render("#paypal-button-container-LPWL4HA79JYQL");
 
-    <div class="gift-box" id="gift-box"></div>
-            </div>
-            
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Ученичко. Всички права запазени.</p>
-    </footer>
-        <script>
-        // Проверяваме кога е последния път, когато потребителят е отворил подарък
-        function checkGiftAvailability(day) {
-            let lastOpened = localStorage.getItem('lastOpened');
-            let currentTime = new Date().getTime();
+    // Функция за копиране на VIP кода
+    function copyVipCode() {
+        const vipCode = document.getElementById('vip-code').innerText;
+        const textarea = document.createElement('textarea');
+        textarea.value = vipCode;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert("VIP кодът е копиран!");
+    }
 
-            // Ако няма запис за последното отваряне, започваме с първия подарък
-            if (!lastOpened) {
-                if (day === 1) {
-                    localStorage.setItem('lastOpened', currentTime);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            // Ако са минали 24 часа, разрешаваме отваряне на следващия подарък
-            let timePassed = currentTime - lastOpened;
-            if (timePassed >= 86400000 * (day - 1)) {
-                return true;
-            } else {
-                return false;
-            }
+    // Функция за показване/скриване на VIP кода
+    function toggleCodeVisibility() {
+        const vipCodeElement = document.getElementById('vip-code');
+        const visibilityButton = document.getElementById('toggle-code-visibility');
+        if (vipCodeElement.style.display === 'none') {
+            vipCodeElement.style.display = 'inline';
+            visibilityButton.innerHTML = '👁️'; // Око показващо кода
+        } else {
+            vipCodeElement.style.display = 'none';
+            visibilityButton.innerHTML = '👁️‍🗨️'; // Око със скрит код
         }
+    }
 
-        // Функция за отваряне на подарък
-        function openGift(day) {
-            if (checkGiftAvailability(day)) {
-                localStorage.setItem('lastOpened', new Date().getTime()); // обновяваме времето на последното отваряне
-                document.getElementById('gift-box').style.display = 'block';
-                document.getElementById('gift-box').innerHTML = `
-                    <h2>Ден ${day}: ${gifts[day].text}</h2>
-                    <img src="${gifts[day].image}" alt="Подарък за ден ${day}">
-                    <p>Ще можеш да вземеш подаръка си утре!</p>
-                `;
-                document.getElementById(`day${day}`).style.backgroundColor = "#b2b2b2";
-                document.getElementById(`day${day}`).style.cursor = "not-allowed";
-                document.getElementById(`day${day}`).removeAttribute("onclick");
-            } else {
-                alert('Моля, изчакайте 24 часа, за да отворите следващия подарък!');
-            }
+    // Функция за активиране на VIP версия
+    function activateVip() {
+        const enteredCode = document.getElementById('vip-input').value;
+        const savedVipCode = localStorage.getItem('vipCode') || generatedVipCode;
+
+        if (enteredCode === savedVipCode) {
+            document.getElementById('activation-message').textContent = "Вашият VIP код е активиран!";
+            document.body.classList.add("vip-version"); // Добавя VIP стилове
+        } else {
+            document.getElementById('activation-message').textContent = "Невалиден VIP код!";
         }
+    }
 
-        // Скриваме подаръците, които не са още достъпни
-        window.onload = function() {
-            const currentDate = new Date();
-            const startDate = new Date('2024-12-15'); // Начална дата - 15 декември
+    // Функция за съхранение на VIP код в localStorage след плащане
+    function storeVipCode() {
+        localStorage.setItem('vipCode', generatedVipCode);
+    }
 
-            if (currentDate < startDate) {
-                document.getElementById('day1').style.cursor = "not-allowed";
-                document.getElementById('day1').onclick = null;
-                alert("Можете да започнете да отваряте подаръците след 15 декември!");
-            }
-        };
-            function checkTeacherCode() {
-            var enteredCode = document.getElementById("teacherCode").value;
-            var correctCode = "64717165";  // Тук поставяме кода за учителски достъп
+    function checkTeacherCode() {
+      var enteredCode = document.getElementById("teacherCode").value;
+      var correctCode = "64717165";
 
-            if (enteredCode === correctCode) {
-                // Ако кодът е правилен, пренасочваме към teachdash.html
-                window.location.href = "teachdash.html";
-            } else {
-                // Ако кодът е неправилен, показваме съобщение
-                document.getElementById("teacherMessage").textContent = "Невалиден код. Моля, опитайте отново.";
-            }
-        }
+      if (enteredCode === correctCode) {
+        window.location.href = "teachdash.html";
+      } else {
+        document.getElementById("teacherMessage").textContent = "Невалиден код. Моля, опитайте отново.";
+      }
+    }
+
+    // Homework функции
     const homeworkList = document.getElementById("homework-list");
     const homeworkForm = document.getElementById("homework-form");
     const homeworkTitle = document.getElementById("homework-title");
     const homeworkDetails = document.getElementById("homework-details");
 
-    // Зареждане на домашните от LocalStorage
     function loadHomeworks() {
-        const savedHomeworks = JSON.parse(localStorage.getItem("homeworks")) || [];
-        savedHomeworks.forEach((homework) => addHomeworkToList(homework.title, homework.details));
+      const savedHomeworks = JSON.parse(localStorage.getItem("homeworks")) || [];
+      savedHomeworks.forEach((homework) => addHomeworkToList(homework.title, homework.details));
     }
 
-    // Добавяне на домашно към списъка и LocalStorage
     function addHomeworkToList(title, details) {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            <span><strong>${title}:</strong> ${details}</span>
-            <button class="delete">Изтрий</button>
-        `;
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span><strong>${title}:</strong> ${details}</span>
+        <button class="delete">Изтрий</button>
+      `;
 
-        // Добавяне на събитие за изтриване
-        li.querySelector(".delete").addEventListener("click", function () {
-            homeworkList.removeChild(li);
-            saveHomeworks();
-        });
-
-        homeworkList.appendChild(li);
+      li.querySelector(".delete").addEventListener("click", function () {
+        homeworkList.removeChild(li);
         saveHomeworks();
+      });
+
+      homeworkList.appendChild(li);
+      saveHomeworks();
     }
 
-    // Запазване на домашните в LocalStorage
     function saveHomeworks() {
-        const homeworks = [];
-        homeworkList.querySelectorAll("li").forEach((li) => {
-            const [title, details] = li.querySelector("span").textContent.split(": ");
-            homeworks.push({ title: title.trim(), details: details.trim() });
-        });
-        localStorage.setItem("homeworks", JSON.stringify(homeworks));
+      const homeworks = [];
+      homeworkList.querySelectorAll("li").forEach((li) => {
+        const [title, details] = li.querySelector("span").textContent.split(": ");
+        homeworks.push({ title: title.trim(), details: details.trim() });
+      });
+      localStorage.setItem("homeworks", JSON.stringify(homeworks));
     }
 
-    // Обработка на изпращането на формата
     homeworkForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const title = homeworkTitle.value.trim();
-        const details = homeworkDetails.value.trim();
-        if (title && details) {
-            addHomeworkToList(title, details);
-            homeworkForm.reset();
-        }
+      e.preventDefault();
+      const title = homeworkTitle.value.trim();
+      const details = homeworkDetails.value.trim();
+      if (title && details) {
+        addHomeworkToList(title, details);
+        homeworkForm.reset();
+      }
     });
-
-    // Зареждане на домашните при стартиране
-    window.onload = loadHomeworks;
-</script>
-
-</body>
-</html>
+    </script>
+    </body>
+    </html>
