@@ -256,33 +256,6 @@
                 <p id="teacherMessage" style="color: red;"></p>
             </div>
 
-<!-- Секция за VIP плащане и активиране -->
-<section id="vip-section">
-    <h2>Получете VIP версията за 8 лв еднократно</h2>
-
-    <!-- PayPal бутон за плащане -->
-    <div id="paypal-button-container-LPWL4HA79JYQL"></div>
-
-    <!-- Раздел с VIP код, който се показва след успешна покупка -->
-    <div id="vip-code-section" style="display:none;">
-        <h3>Вашият VIP код:</h3>
-        <div id="vip-code-container">
-            <span id="vip-code"></span>
-            <button id="toggle-code-visibility" onclick="toggleCodeVisibility()">👁️</button> <!-- Бутон за показване/скриване -->
-        </div>
-        <button onclick="copyVipCode()">Копирай кода</button>
-    </div>
-
-    <!-- Активиране на VIP версията -->
-    <h3>Активирайте VIP версията:</h3>
-    <input type="text" id="vip-input" placeholder="Въведете VIP код">
-    <button onclick="activateVip()">Активирай</button>
-    <p id="activation-message"></p>
-</section>
-
-<script src="https://www.paypal.com/sdk/js?client-id=BAAxJPYMr4csS9VsWQDlOjBa9StnLgEaGTumX72my-5knLLJcNx2PAfLLy3mdM-CZ_9e4FvsHAFitn7j18&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
-
-
 
               <footer>
                 <p>&copy; 2024 Ученичко. Всички права запазени.</p>
@@ -422,6 +395,20 @@
         addHomeworkToList(title, details);
         homeworkForm.reset();
       }
+      // Съхраняване на CSS кода в localStorage
+localStorage.setItem('customCSS', cssCode);
+
+// Прилагане на CSS кода от localStorage
+const savedCSS = localStorage.getItem('customCSS');
+if (savedCSS) {
+    let styleElement = document.getElementById('customStyle');
+    if (!styleElement) {
+        styleElement = document.createElement('style');
+        styleElement.id = 'customStyle';
+        document.head.appendChild(styleElement);
+    }
+    styleElement.textContent = savedCSS;
+}
     });
     </script>
 </body>
