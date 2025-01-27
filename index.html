@@ -245,21 +245,62 @@
     </header>
     <main>
         <section>
-            <h2>Добре дошли в Ученичко</h2>
-            <p>Открийте знания за различни предмети и подобрете уменията си.</p>
-            </div>
+            <h2 style="color: #4CAF50; font-size: 2em; text-align: center; font-weight: bold;">
+                Добре дошли в <span style="color: #FF9800;">Ученичко</span>
+            </h2>
+            <p style="font-size: 1.2em; color: #333; text-align: center; line-height: 1.5; max-width: 600px; margin: 0 auto;">
+                Открийте <span style="color: #2196F3; font-weight: bold;">знания</span> за различни 
+                <span style="color: #E91E63;">предмети</span> и подобрете 
+                <span style="color: #9C27B0;">уменията</span> си.
+            </p>            
 
-            <div class="section">
-                <h2>Въведете код за достъп за учители</h2>
-                <input type="text" id="teacherCode" placeholder="Въведете код за учители">
-                <button onclick="checkTeacherCode()">Проверете код</button>
-                <p id="teacherMessage" style="color: red;"></p>
-            </div>
+            <div class="section" style="
+    background: linear-gradient(135deg, #4CAF50, #2196F3);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    margin: 20px auto;
+    color: #fff;
+">
+    <h2 style="font-size: 1.8em; font-weight: bold; margin-bottom: 20px;">
+        Въведете код за <span style="color: #FFEB3B;">достъп за учители</span>
+    </h2>
+    <input type="text" id="teacherCode" placeholder="Въведете код за учители" 
+        style="
+            width: 80%; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.1em; 
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        ">
+    <button onclick="checkTeacherCode()" 
+        style="
+            margin-top: 15px;
+            padding: 12px 25px; 
+            font-size: 1.1em; 
+            color: #fff; 
+            background: #FF5722; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: background 0.3s ease;
+        "
+        onmouseover="this.style.background='#E64A19'" 
+        onmouseout="this.style.background='#FF5722'">
+        Проверете код
+    </button>
+    <p id="teacherMessage" style="color: #FFEB3B; font-weight: bold; margin-top: 15px;"></p>
+</div>
+
 
 
               <footer>
                 <p>&copy; 2024 Ученичко. Всички права запазени.</p>
-                <p><strong>Нашият имейл: <a href="mailto:69newsbg@gmail.com">69newsbg@gmail.com</a></strong></p>
+                <p><strong>Нашият имейл: <a href="mailto:uchenichko.bg@gmail.com">uchenichko.bg@gmail.com</a></strong></p>
               </footer>
 
     <script>
